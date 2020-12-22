@@ -1,0 +1,21 @@
+{
+  "name": "misapi",
+  "version": "1.0.0",
+  "description": "Library for Misskey made by Node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sinnrinn/Misapi.git"
+  },
+  "author": "Rei_Nanao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sinnrinn/Misapi/issues"
+  },
+  "dependencies": {
+    "axios": "^0.21.0"
+  }
+}
