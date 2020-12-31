@@ -1,39 +1,45 @@
 const axios = require('axios');
 
-exports.modules = class LOGIN {
+class Login {
     constructor (host) {
-        this.host = host
+        this.host = host;
     }
 
-    async post(endpoint, data) {
-        const res = await axios({
+    async appRegister(appName, appDescription, appPermission) {
+        //Set up baseurl
+        const knocker = axios.create({
             method: 'post',
-            url: 'https://' + this.host + '/api/' + endpoint,
-            data: data
+            baseURL: 'https://' + this.host + '/api/'
         });
-    
-        return res.data;
-    }
 
-    async appCreate(appName, appDescription, appPermission) {
-        const res = await this.post("app/create", {
+        //App Create
+        const appCreate = await knocker('app/create', {
             name: appName,
             description: appDescription,
             permission: appPermission
         });
-    
-        return res;
-    }
-    
-    async authGenerate(appSecret) {
-        const res = await this.post("auth/session/generate", {
-            appSecret: appSecret
+
+        //Make a token to authrizetion app
+        const authGenerate = await knocker('auth/session/generate', {
+            appSecret: secret
         });
-    
+
+        //Sort variable
+        const secret = await appCreate.data.secret;
+        const token = await authGenerate.data.token;
+        const url = await authGenerate.data.url;
+
+        //Make response data
+        const res = {
+            secret,
+            token,
+            url 
+        }
+
         return res;
     }
     
-    async getToken(appSecret, token){
+    async get_i(appSecret, token){
         const res = await this.post("auth/session/userkey", {
             appSecret: appSecret,
             token: token
@@ -43,3 +49,5 @@ exports.modules = class LOGIN {
     } 
 
 }
+
+module.exports = Login;
