@@ -3,48 +3,48 @@ const axios = require('axios');
 class Login {
     constructor (host) {
         this.host = host;
+        this.knocker = axios.create({
+            baseURL: 'https://' + this.host + '/api/'
+        });
     }
 
     async appRegister(appName, appDescription, appPermission) {
-        //Set up baseurl
-        const knocker = axios.create({
-            method: 'post',
-            baseURL: 'https://' + this.host + '/api/'
-        });
-
+        try {
+            //Define variable
+            let secret;
+            let token;
+            let url;
+            
         //App Create
-        const appCreate = await knocker('app/create', {
-            name: appName,
-            description: appDescription,
-            permission: appPermission
-        });
+            await this.knocker.post('app/create', {
+                name: appName,
+                description: appDescription,
+                permission: appPermission
+            }).then(function (res) { secret = res.data.secret; });
 
-        //Make a token to authrizetion app
-        const authGenerate = await knocker('auth/session/generate', {
-            appSecret: secret
-        });
+            //Make a token to authrizetion app
+            await this.knocker.post('auth/session/generate', {
+                appSecret: secret
+            }).then(function (res) { token = res.data.token; url = res.data.url; });
 
-        //Sort variable
-        const secret = await appCreate.data.secret;
-        const token = await authGenerate.data.token;
-        const url = await authGenerate.data.url;
+            return {
+                secret,
+                token,
+                url
+            };
 
-        //Make response data
-        const res = {
-            secret,
-            token,
-            url 
+        } catch(err) {
+            console.log(err.response.status + ' ' + err.response.statusText)
+            return err.response;
         }
-
-        return res;
     }
     
     async get_i(appSecret, token){
-        const res = await this.post("auth/session/userkey", {
-            appSecret: appSecret,
-            token: token
-        });
-    
+        let res = await this.knocker.post("auth/session/userkey", {
+                appSecret: appSecret,
+                token: token
+    }).catch(function (error) {console.log(error)});
+
         return res;
     } 
 
