@@ -35,6 +35,7 @@ class Login {
             };
 
         } catch(err) {
+            //Return HTTP Status Code and HTTP Status Text
             console.log(err.response.status + ' ' + err.response.statusText)
             return err.response;
         }
@@ -43,19 +44,41 @@ class Login {
     async get_i(appSecret, token) {
         let res;
         for(;;) {
+            //Get token
             res = await this.knocker.post("auth/session/userkey", {
                     appSecret: appSecret,
                     token: token
             }).catch(function (){});
             if(res !== undefined) {
+                //Make i
                 const i = crypto.createHash("sha256")
                 .update(res.data.accessToken + appSecret, "utf8")
                 .digest("hex")
                 return i;
             }
+            //Wait a second to get token;
             await setTimeout(function(){},1000);
         } 
     }
 }
 
-module.exports = Login;
+class Api {
+    constructor (host, i) {
+        this.host = host;
+        this.i = i;
+        this.knocker = axios.create({
+            baseURL: 'https://' + this.host + '/api/'
+        });
+    }
+
+    async post(endpoint, data) {
+        data.i = this.i;
+        let res = this.knocker.post(endpoint, data);
+        return res.data;
+    }
+}
+
+module.exports = {
+    Login,
+    Api
+};
