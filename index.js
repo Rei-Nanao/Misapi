@@ -1,4 +1,5 @@
 const axios = require('axios');
+const crypto = require("crypto")
 
 class Login {
     constructor (host) {
@@ -15,7 +16,7 @@ class Login {
             let token;
             let url;
             
-        //App Create
+            //App Create
             await this.knocker.post('app/create', {
                 name: appName,
                 description: appDescription,
@@ -39,15 +40,22 @@ class Login {
         }
     }
     
-    async get_i(appSecret, token){
-        let res = await this.knocker.post("auth/session/userkey", {
-                appSecret: appSecret,
-                token: token
-    }).catch(function (error) {console.log(error)});
-
-        return res;
-    } 
-
+    async get_i(appSecret, token) {
+        let res;
+        for(;;) {
+            res = await this.knocker.post("auth/session/userkey", {
+                    appSecret: appSecret,
+                    token: token
+            }).catch(function (){});
+            if(res !== undefined) {
+                const i = crypto.createHash("sha256")
+                .update(res.data.accessToken + appSecret, "utf8")
+                .digest("hex")
+                return i;
+            }
+            await setTimeout(function(){},1000);
+        } 
+    }
 }
 
 module.exports = Login;
