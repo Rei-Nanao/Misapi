@@ -1,17 +1,18 @@
-#Misapi (Misskey Api for Node.js)
+# Misapi (Misskey Api for Node.js)
 This is a Misskey library for Node.js.
 
-##Installation
+
+## Installation
 **Coming soon...**
 
-##Usage
-###1. Make a Variable
+## Usage
+### 1. Make a Variable
 You should make a variable to use Misapi on your project.
 ```nodejs
 const Misapi = require('misapi');
 ```
 
-###2. Initialize a Class
+### 2. Initialize a Class
 You should initilize a class to create application and get authorizetion Token. You need the URL is server you want to make your application.
 ```nodejs
 const login = new Misapi.Login('misskey.io')
@@ -19,7 +20,7 @@ const login = new Misapi.Login('misskey.io')
 
 _*The URL should be like misskey.io but unlike https://misskey.io/_
 
-###3. Get Application And Authorizetion Token
+### 3. Get Application And Authorizetion Token
 You should run a function. It will prepare all thing to get i.
 ```nodejs
 const app = await login.appRegister('Your Application Name', 'The Application Description', [
@@ -36,7 +37,7 @@ const app = await login.appRegister('Example App', 'This is cat', [
 
 After the function, you will receive application secret, token to authorizetion, and url to authorizetion.
 
-###4. Let's Get "i"
+### 4. Let's Get "i"
 Now you are ready to get "i". Let's run this function!
 ```nodejs
 const i = await login.get_i('Application Secret', 'token');
@@ -44,13 +45,13 @@ const i = await login.get_i('Application Secret', 'token');
 
 You already have "i". Let's Enjoy!
 
-###5. Initialize api class
+### 5. Initialize api class
 You have "i", so you should initialize a function!
 ```nodejs
 const api = new Misapi.Api('misskey.io', _'i'_);
 ```
 
-###6. Let's Use API!
+### 6. Let's Use API!
 By this function, you can use API easy. You should prepare endpoint and data.
 ```nodejs
 api.post('endpoint', 'data');
@@ -65,5 +66,5 @@ api.post('notes/create', {
 ```
 That's all!
 
-##Future Implements
+## Future Implements
 WebSocket
