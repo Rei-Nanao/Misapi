@@ -1,6 +1,6 @@
 {
   "name": "misapi",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Library for Misskey made by Node.js.",
   "main": "index.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rei_Nanao/Misapi.git"
+    "url": "git+https://github.com/Rei-Nanao/Misapi.git"
   },
-  "author": "Rei Nanao",
+  "author": "Rei Nanao <rei.7ao@gmail> (https://github.com/Rei-Nanao/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sinnrinn/Rei-Nanao/issues"
+    "url": "https://github.com/Rei-Nanao/Misapi/issues"
   },
   "dependencies": {
-    "axios": "^0.21.0"
+    "axios": "^0.21.1"
   }
 }
