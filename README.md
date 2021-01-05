@@ -50,7 +50,7 @@ You already have "i". Let's Enjoy!
 ### 5. Initialize api class
 You have "i", so you should initialize a function!
 ```node
-const api = new Misapi.Api('misskey.io', _'i'_);
+const api = new Misapi.Api('misskey.io', 'i');
 ```
 
 ### 6. Let's Use API!
